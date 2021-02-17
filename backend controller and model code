@@ -1,0 +1,72 @@
+This is code from my asp.net core backend on azure
+
+-------------------------------------------------
+CONTROLLER CODE: (Model is down below)
+-------------------------------------------------
+
+using System;
+using Microsoft.AspNetCore.Mvc;
+using temperatureCore.Models;
+
+namespace temperatureCore.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class MeasurementsController : ControllerBase
+    {
+    
+   private temperaturedbContext db = new temperaturedbContext();
+            
+    
+      // Hae kaikki mittaukset
+        [HttpGet]
+        [Route("")]
+        public List<Measurements> GetAll()
+        {
+            List<Measurements> measurements = context.Measurements.ToList();
+            return measurements;
+        }
+        
+
+        [HttpPost]
+        [Route("")]
+        public ActionResult CreateMeasurement([FromBody] Measurements mittaus)
+        {
+           try
+            {
+                mittaus.Time = DateTime.Now.AddHours(2); // Aikaleima laitetaan back-endissä, muut tulee IoT laitteesta
+                //Päivitys: Lisätty 2h koska palvelinkone on Irlannissa.
+
+                db.Measurements.Add(mittaus);
+                db.SaveChanges();
+                return Ok("Kiitos! Tallennettu id:llä " + mittaus.MeasurementId);
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Jotain meni pieleen, mutta pyyntö tuli perille. Kts: " + e.GetType().Name + " : " + e.Message);
+            }
+            finally
+            {
+                db.Dispose();
+            }
+
+        }
+    }
+}
+--------------------------------------------------------------------------
+MODEL CODE: (Tämä vastaa tietokannan kenttiä)
+-----------------------------------------------------------------------
+using System;
+
+namespace temperatureCore.Models
+{
+    public partial class Measurements
+    {
+        public int MeasurementId { get; set; }
+        public string Sender { get; set; }
+        public DateTime? Time { get; set; }
+        public double? Temperature { get; set; }
+        public double? Humidity { get; set; }
+        public double? Pressure { get; set; }
+    }
+}
