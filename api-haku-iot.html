@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+<html>
+
+<body style="margin-left: 100px">
+    <h2>Mittausdataa</h2>
+    <br>
+    <button onclick="haeData()">Päivitä</button>
+    <br><br>
+    <div id="htmlTaulukko"></div>
+
+
+    <script>
+
+        function haeData() {
+
+            document.getElementById("htmlTaulukko").innerHTML = `<marquee direction = "up"><h2>Haetaan mittaustuloksia...</h2></marquee>`
+
+            var mittausTable = `<table style="width: 500px">
+            <thead>
+                <tr>
+                    <th>Sender</th>
+                    <th>Time</th>
+                    <th>Temperature</th>
+                    <th>Humidity</th>
+                    <th>Pressure</th>
+                </tr>
+            </thead>
+            <tbody>`
+
+            fetch('https://timesheetrest.azurewebsites.net/api/measurements/')
+                .then(response => response.json())
+                .then(json => json.map(m =>
+                    mittausTable += `<tr>
+                <td>${m.sender}</td>
+                <td>${m.time}</td>
+                <td>${m.temperature}</td>
+                <td>${m.humidity}</td>
+                <td>${m.pressure}</td>
+            </tr>`
+                ))
+
+            // Palvelimen vastaus kestää ja siksi koodi ei toimi
+            // jos ei odota dataa hetken ennenkuin päättää taulukon. Nyt 4000ms = 4sek.
+
+            setTimeout(() => {
+                mittausTable += `</tbody></table>`
+                document.getElementById("htmlTaulukko").innerHTML = mittausTable
+            }, 4000
+            )
+
+        }
+
+    </script>
+</body>
+
+</html>
