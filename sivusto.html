@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Paintball game</title>
+</head>
+
+<body id="all" style="margin-left: 20%;">
+
+    <h1>Paintball game</h1>
+
+    <button onclick="showNews()">News!</button>
+    <button onclick="showAbout()">About Paintball game</button>
+    <button onclick="showContacts()">Who we are?</button>
+
+    <button onclick="darkTheme()">Dark theme</button>
+    <button onclick="lightTheme()">Light theme</button>
+
+    <div id="sisältö"></div>
+    
+
+<script>
+
+    let theme = "light" // Oletus vaalea teema
+
+     //--------TEEMAN-MUUTOS-FUNKTIOT-------------------------------------
+
+function darkTheme() {
+        
+        theme = "dark"
+        document.getElementById("all").style.backgroundColor = "black"
+        document.getElementsByTagName("h1")[0].style.color = "silver"
+        document.getElementsByTagName("h3")[0].style.color = "silver"
+        document.getElementsByTagName("h5")[0].style.color = "silver"
+        document.getElementsByTagName("ul")[0].style.color = "white"
+    }
+
+    function lightTheme() {
+    
+        theme = "light"
+        document.getElementById("all").style.backgroundColor = "white"
+        document.getElementsByTagName("h1")[0].style.color = "blue"
+        document.getElementsByTagName("h3")[0].style.color = "black"
+        document.getElementsByTagName("h5")[0].style.color = "black"
+        document.getElementsByTagName("ul")[0].style.color = "black"
+    }
+
+    //--------NAVIGOINTI-FUNKTIOT-------------------------------------
+
+    function showNews() {
+        let x = `
+        <h3>News!</h3>
+        <h5>Painball night at Kokonhalli 2021/11/05 At 6PM</h5>`
+
+        document.getElementById("sisältö").innerHTML = x
+
+        if (theme === "dark") {
+            darkTheme()
+        }
+        else {
+            lightTheme()
+        }
+    }
+
+    function showAbout() {
+        let x = `<h3>About Painball Game</h3>
+        <h5 id="paintball"> Paintball is a popular vr game where you can push yourself to the limits.</h5>
+
+        <img src="https://thumbnails.pcgamingwiki.com/b/bb/High_Impact_Paintball_cover.jpg/300px-High_Impact_Paintball_cover.jpg">
+        `
+        
+        document.getElementById("sisältö").innerHTML = x
+
+        if (theme === "dark") {
+            darkTheme()
+        }
+        else {
+            lightTheme()
+        }
+    }
+
+    function showContacts() {
+        let x = `
+        <h3>Who we are?</h3>
+        <h5>We are Finnish hipsters.</h5>
+        <ul>
+            <li>Jarno Saarinen - Developer</li>
+            <li>Hans Mennander - Tester</li>
+        </ul>
+        `
+        document.getElementById("sisältö").innerHTML = x
+
+        if (theme === "dark") {
+            darkTheme()
+        }
+        else {
+            lightTheme()
+        }
+    }
+
+</script>
+
+</body>
+
+
+</html>
